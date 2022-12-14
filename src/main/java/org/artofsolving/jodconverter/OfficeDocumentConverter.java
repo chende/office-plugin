@@ -72,7 +72,10 @@ public class OfficeDocumentConverter {
     public void convert(File inputFile, File outputFile, DocumentFormat outputFormat, FileProperties fileProperties) throws OfficeException {
         String inputExtension = FilenameUtils.getExtension(inputFile.getName());
         DocumentFormat inputFormat = formatRegistry.getFormatByExtension(inputExtension);
-        Map<String, Object> properties = fileProperties.toMap();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        if(fileProperties != null){
+            properties.putAll(fileProperties.toMap());
+        }
         properties.putAll(defaultLoadProperties);
         StandardConversionTask conversionTask = new StandardConversionTask(inputFile, outputFile, outputFormat);
         conversionTask.setDefaultLoadProperties(properties);
